@@ -1,18 +1,28 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+/**
+ * helmet is a middleware that adds and removes some headers for adding more security
+ */
 const helmet = require("helmet");
+/**
+ * const debug = require("debug")("app:log"); // You are free to name the debug namespace as you like
+ * +0ms is time spent from the last debug message
+ */
+const debug = require("debug")("app:db");
 
-require("dotenv").config();
+/**
+ * Registering all seq
+ */
 var models = require("./app/models");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
-// helmet is a middleware that adds and removes some headers for adding more security
 app.use(helmet());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -31,10 +41,10 @@ app.use("/users", usersRouter);
 models.sequelize
   .sync()
   .then(() => {
-    console.log("Connection has been established successfully.");
+    debug("Connection has been established successfully.");
   })
   .catch(err => {
-    console.error("Unable to connect to the database:", err);
+    debug("Unable to connect to the database:", err);
   });
 
 // catch 404 and forward to error handler
