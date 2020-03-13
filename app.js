@@ -3,6 +3,9 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+/**
+ * morgan logs every http request by default to the console .. you can set it to log to a file instead
+ */
 var logger = require("morgan");
 /**
  * helmet is a middleware that adds and removes some headers for adding more security
